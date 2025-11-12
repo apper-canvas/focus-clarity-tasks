@@ -1,0 +1,82 @@
+[
+  {
+    "Id": 1,
+    "title": "Review project proposal",
+    "description": "Go through the Q4 marketing proposal and provide feedback on budget allocation and timeline",
+    "priority": "high",
+    "category": "Work",
+    "completed": false,
+    "createdAt": "2024-01-15T09:00:00Z",
+    "completedAt": null
+  },
+  {
+    "Id": 2,
+    "title": "Buy groceries for dinner",
+    "description": "Get ingredients for pasta night - tomatoes, basil, parmesan, and fresh pasta",
+    "priority": "medium",
+    "category": "Personal",
+    "completed": false,
+    "createdAt": "2024-01-15T10:30:00Z",
+    "completedAt": null
+  },
+  {
+    "Id": 3,
+    "title": "Schedule dentist appointment",
+    "description": "Call Dr. Smith's office to schedule routine cleaning for next month",
+    "priority": "low",
+    "category": "Health",
+    "completed": true,
+    "createdAt": "2024-01-14T14:00:00Z",
+    "completedAt": "2024-01-15T08:30:00Z"
+  },
+  {
+    "Id": 4,
+    "title": "Prepare presentation slides",
+    "description": "Create slide deck for Monday's client meeting, include Q3 results and future projections",
+    "priority": "high",
+    "category": "Work",
+    "completed": false,
+    "createdAt": "2024-01-15T11:45:00Z",
+    "completedAt": null
+  },
+  {
+    "Id": 5,
+    "title": "Morning jog",
+    "description": "30-minute run around the neighborhood park",
+    "priority": "medium",
+    "category": "Health",
+    "completed": true,
+    "createdAt": "2024-01-15T06:00:00Z",
+    "completedAt": "2024-01-15T06:45:00Z"
+  },
+  {
+    "Id": 6,
+    "title": "Call mom",
+    "description": "Weekly check-in call to catch up and discuss weekend plans",
+    "priority": "medium",
+    "category": "Personal",
+    "completed": false,
+    "createdAt": "2024-01-15T12:00:00Z",
+    "completedAt": null
+  },
+  {
+    "Id": 7,
+    "title": "Update LinkedIn profile",
+    "description": "Add recent project achievements and update skills section",
+    "priority": "low",
+    "category": "Personal",
+    "completed": false,
+    "createdAt": "2024-01-15T13:15:00Z",
+    "completedAt": null
+  },
+  {
+    "Id": 8,
+    "title": "Team standup meeting",
+    "description": "Daily standup at 9 AM to discuss progress and blockers",
+    "priority": "high",
+    "category": "Work",
+    "completed": true,
+    "createdAt": "2024-01-15T08:45:00Z",
+    "completedAt": "2024-01-15T09:15:00Z"
+  }
+]

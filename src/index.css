@@ -1,0 +1,114 @@
+@import 'tailwindcss/base';
+@import 'tailwindcss/components';
+@import 'tailwindcss/utilities';
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+:root {
+  font-family: 'Inter', system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Toast Notification Styling */
+.Toastify__toast {
+  @apply rounded-lg shadow-lg;
+  font-family: 'Inter', system-ui, sans-serif;
+}
+
+.Toastify__toast--success {
+  @apply bg-emerald-50 text-emerald-800 border-l-4 border-emerald-500;
+}
+
+.Toastify__toast--error {
+  @apply bg-red-50 text-red-800 border-l-4 border-red-500;
+}
+
+.Toastify__toast--info {
+  @apply bg-blue-50 text-blue-800 border-l-4 border-blue-500;
+}
+
+.Toastify__toast--warning {
+  @apply bg-amber-50 text-amber-800 border-l-4 border-amber-500;
+}
+
+.Toastify__progress-bar--success {
+  @apply bg-emerald-500;
+}
+
+.Toastify__progress-bar--error {
+  @apply bg-red-500;
+}
+
+.Toastify__progress-bar--info {
+  @apply bg-blue-500;
+}
+
+.Toastify__progress-bar--warning {
+  @apply bg-amber-500;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-gray-100;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-gray-300 rounded-full;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  @apply bg-gray-400;
+}
+
+/* Animation Classes */
+.task-completion-animation {
+  animation: taskComplete 0.4s ease-out forwards;
+}
+
+@keyframes taskComplete {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: translateX(20px) scale(0.95);
+    opacity: 0.7;
+  }
+}
+
+.priority-pulse {
+  animation: priorityPulse 0.2s ease-out;
+}
+
+@keyframes priorityPulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
