@@ -1,9 +1,9 @@
 import { Outlet, useLocation, useNavigate } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { useEffect, useState, createContext, useContext } from "react";
-import { setUser, clearUser, setInitialized } from "@/store/userSlice";
-import { getRouteConfig, verifyRouteAccess } from "@/router/route.utils";
+import { useDispatch, useSelector } from "react-redux";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { getApperClient } from "@/services/apperClient";
+import { clearUser, setInitialized, setUser } from "@/store/userSlice";
+import { getRouteConfig, verifyRouteAccess } from "@/router/route.utils";
 
 // Auth context for logout functionality
 const AuthContext = createContext(null);
@@ -62,33 +62,49 @@ export default function Root() {
     navigate(redirectUrl, { replace: true });
   }, [isInitialized, user, location.pathname, location.search, navigate]);
 
-  const initializeAuth = async () => {
-    try {
-      // Wait for SDK to load and get client
-      const apperClient = await getApperClient();
+const initializeAuth = async () => {
+    // Wait for SDK to be available
+    let attempts = 0;
+    const maxAttempts = 50;
+    
+    const checkSDK = async () => {
+      if (window.ApperSDK) {
+        try {
+          const apperClient = getApperClient();
 
-      if (!apperClient || !window.ApperSDK) {
-        console.error('Failed to initialize ApperSDK or ApperClient');
+          if (!apperClient || !window.ApperSDK) {
+            console.error('Failed to initialize ApperSDK or ApperClient');
+            dispatch(clearUser());
+            handleAuthComplete();
+            return;
+          }
+
+          const { ApperUI } = window.ApperSDK;
+
+          ApperUI.setup(apperClient, {
+            target: "#authentication",
+            clientId: import.meta.env.VITE_APPER_PROJECT_ID,
+            view: "both",
+            onSuccess: handleAuthSuccess,
+            onError: handleAuthError,
+          });
+
+        } catch (error) {
+          console.error('Failed to initialize authentication:', error);
+          dispatch(clearUser());
+          handleAuthComplete();
+        }
+      } else if (attempts < maxAttempts) {
+        attempts++;
+        setTimeout(checkSDK, 100);
+      } else {
+        console.error('ApperSDK failed to load after maximum attempts');
         dispatch(clearUser());
         handleAuthComplete();
-        return;
       }
-
-      const { ApperUI } = window.ApperSDK;
-
-      ApperUI.setup(apperClient, {
-        target: "#authentication",
-        clientId: import.meta.env.VITE_APPER_PROJECT_ID,
-        view: "both",
-        onSuccess: handleAuthSuccess,
-        onError: handleAuthError,
-      });
-
-    } catch (error) {
-      console.error('Failed to initialize authentication:', error);
-      dispatch(clearUser());
-      handleAuthComplete();
-    }
+    };
+    
+    checkSDK();
   };
 
   const handleAuthSuccess = (user) => {
@@ -130,13 +146,14 @@ export default function Root() {
     }
   };
 
-  const logout = async () => {
+const logout = async () => {
     try {
       dispatch(clearUser());
-      navigate("/login");
       await window.ApperSDK?.ApperUI?.logout();
+      navigate("/login");
     } catch (error) {
       console.error("Logout failed:", error);
+      navigate("/login");
     }
   };
 

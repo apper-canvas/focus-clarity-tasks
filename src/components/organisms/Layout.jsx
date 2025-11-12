@@ -1,52 +1,58 @@
-import { Outlet } from 'react-router-dom';
-import { useAuth } from '@/layouts/Root';
-import { useSelector } from 'react-redux';
-import Button from '@/components/atoms/Button';
-import ApperIcon from '@/components/ApperIcon';
+import { useSelector } from 'react-redux'
+import { Outlet } from 'react-router-dom'
+import Button from '@/components/atoms/Button'
+import ApperIcon from '@/components/ApperIcon'
 
-function Layout() {
-  const { logout } = useAuth();
-  const { user } = useSelector(state => state.user);
+export default function Layout() {
+  const { user, isAuthenticated } = useSelector((state) => state.user)
+
+  const handleLogout = async () => {
+    try {
+      if (window.ApperSDK?.ApperUI?.logout) {
+        await window.ApperSDK.ApperUI.logout()
+      }
+      // Redirect will be handled by Root.jsx authentication flow
+    } catch (error) {
+      console.error('Logout error:', error)
+    }
+  }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
-      <div className="container mx-auto p-4">
-        <header className="mb-8">
-          <div className="flex items-center justify-between mb-4">
-            <div className="flex items-center">
-              <div className="w-12 h-12 bg-gradient-to-r from-primary-500 to-primary-600 rounded-xl flex items-center justify-center shadow-lg">
-                <span className="text-white text-xl font-bold">C</span>
+    <div className="min-h-screen bg-gray-50">
+      {isAuthenticated && (
+        <header className="bg-white shadow-sm border-b">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center h-16">
+              <div className="flex items-center space-x-4">
+                <h1 className="text-xl font-semibold text-gray-900">Task Manager</h1>
               </div>
-              <div className="ml-3">
-                <h1 className="text-2xl font-bold text-gray-900">Clarity Tasks</h1>
-                <p className="text-gray-600 text-sm">Clean & Simple Task Management</p>
-              </div>
-            </div>
-            
-            {user && (
-              <div className="flex items-center gap-4">
-                <div className="text-sm text-gray-600">
-                  Welcome, {user.firstName} {user.lastName}
-                </div>
+              
+              <div className="flex items-center space-x-4">
+                {user && (
+                  <div className="flex items-center space-x-2 text-sm text-gray-600">
+                    <ApperIcon name="User" size={16} />
+                    <span>{user.firstName} {user.lastName}</span>
+                  </div>
+                )}
+                
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={logout}
-                  className="flex items-center gap-2 hover:bg-red-50 hover:text-red-600"
+                  onClick={handleLogout}
+                  className="flex items-center space-x-2 text-gray-600 hover:text-gray-900"
                 >
                   <ApperIcon name="LogOut" size={16} />
-                  Logout
+                  <span>Logout</span>
                 </Button>
               </div>
-            )}
+            </div>
           </div>
         </header>
-        <main>
-          <Outlet />
-        </main>
-      </div>
+      )}
+      
+      <main className="flex-1">
+        <Outlet />
+      </main>
     </div>
-  );
+  )
 }
-
-export default Layout;
