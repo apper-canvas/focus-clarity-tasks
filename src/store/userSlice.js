@@ -2,9 +2,10 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
   user: null,
-  isAuthenticated: false,
-  isLoading: false,
-  error: null
+isAuthenticated: false,
+isInitialized: false,
+isLoading: false,
+error: null
 }
 
 const userSlice = createSlice({
@@ -34,8 +35,11 @@ const userSlice = createSlice({
       if (state.user) {
         state.user = { ...state.user, ...action.payload }
       }
+},
+    setInitialized: (state, action) => {
+      state.isInitialized = action.payload
     }
   }
 })
-export const { setUser, clearUser, setLoading, setError, updateUser } = userSlice.actions
+export const { setUser, clearUser, setLoading, setError, updateUser, setInitialized } = userSlice.actions
 export default userSlice.reducer
